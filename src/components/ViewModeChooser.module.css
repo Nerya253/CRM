@@ -32,7 +32,7 @@
 }
 
 .gridItem {
-  background-color: #fff;
+  background-color: #b0ad89;
   border: 1px solid #ddd;
   padding: 15px;
   border-radius: 8px;
@@ -47,8 +47,9 @@
 .gridItem p {
   margin: 5px 0;
   font-family: Arial, sans-serif;
+  color: white;
 }
 
 .gridItem strong {
-  color: #333;
+  color: hsl(0, 0%, 0%);
 }

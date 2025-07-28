@@ -43,7 +43,15 @@ export default function NavBar() {
             Clients
           </NavLink>
         </li>
-
+        <li>
+          <NavLink
+            to="AddClients"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            Add Client
+          </NavLink>
+        </li>
         <li>
           <span
             className={styles.settingsToggle}
@@ -51,7 +59,7 @@ export default function NavBar() {
           >
             Settings ▾
           </span>
-          {settingsOpen ? (
+          {settingsOpen && (
             <ul className={styles.dropdown}>
               <li>
                 <NavLink
@@ -78,7 +86,7 @@ export default function NavBar() {
                 </NavLink>
               </li>
             </ul>
-          ) : null}
+          )}
         </li>
       </ul>
     </nav>
