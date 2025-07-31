@@ -1,10 +1,11 @@
 import { Obj } from "../data/MyObj";
-import styles from "../components/ViewModeChooser.module.css";
+import "../components/ViewModeChooser.css";
+import Card from "../components/Card";
 
 export function Table() {
   return (
-    <div className={styles.tableWrapper}>
-      <table className={styles.table}>
+    <div className="tableWrapper">
+      <table className="table">
         <thead>
           <tr>
             {Object.keys(Obj[0]).map((col) => (
@@ -28,15 +29,9 @@ export function Table() {
 
 export function Grid() {
   return (
-    <div className={styles.gridContainer}>
+    <div className="gridContainer">
       {Obj.map((item) => (
-        <div key={item.id} className={styles.gridItem}>
-          {Object.entries(item).map(([key, val]) => (
-            <p key={key}>
-              <strong>{key}:</strong> {val}
-            </p>
-          ))}
-        </div>
+        <Card item={item} key={item.id} />
       ))}
     </div>
   );

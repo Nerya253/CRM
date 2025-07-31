@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Obj } from "../data/MyObj";
-import styles from "./AddClients.module.css";
+import "./AddClients.css";
 
 export default function AddClients() {
   const [newClient, setNewClient] = useState({
@@ -11,7 +11,7 @@ export default function AddClients() {
     address: "",
   });
   return (
-    <div className={styles.container}>
+    <div className="container">
       <input
         type="text"
         placeholder="ID"

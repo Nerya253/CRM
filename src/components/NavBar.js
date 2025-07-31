@@ -1,26 +1,23 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import styles from "./NavBar.module.css";
+import "./NavBar.css";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
-    <nav className={styles.navbar}>
-      <div
-        className={styles.hamburger}
-        onClick={() => setMenuOpen((prev) => !prev)}
-      >
+    <nav className="navbar">
+      <div className="hamburger" onClick={() => setMenuOpen((prev) => !prev)}>
         ☰
       </div>
 
-      <ul className={`${styles["nav-links"]} ${menuOpen ? styles.active : ""}`}>
+      <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
         <li>
           <NavLink
             to="/"
             onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? styles.active : "")}
+            className={({ isActive }) => (isActive ? "active" : "")}
           >
             Home
           </NavLink>
@@ -29,7 +26,7 @@ export default function NavBar() {
           <NavLink
             to="/About"
             onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? styles.active : "")}
+            className={({ isActive }) => (isActive ? "active" : "")}
           >
             About
           </NavLink>
@@ -38,29 +35,29 @@ export default function NavBar() {
           <NavLink
             to="/Clients"
             onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? styles.active : "")}
+            className={({ isActive }) => (isActive ? "active" : "")}
           >
             Clients
           </NavLink>
         </li>
         <li>
           <NavLink
-            to="AddClients"
+            to="/AddClients"
             onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? styles.active : "")}
+            className={({ isActive }) => (isActive ? "active" : "")}
           >
             Add Client
           </NavLink>
         </li>
         <li>
           <span
-            className={styles.settingsToggle}
+            className="settings-toggle"
             onClick={() => setSettingsOpen((prev) => !prev)}
           >
             Settings ▾
           </span>
           {settingsOpen && (
-            <ul className={styles.dropdown}>
+            <ul className="dropdown">
               <li>
                 <NavLink
                   to="/Settings/table"
@@ -68,7 +65,7 @@ export default function NavBar() {
                     setMenuOpen(false);
                     setSettingsOpen(false);
                   }}
-                  className={({ isActive }) => (isActive ? styles.active : "")}
+                  className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   Table
                 </NavLink>
@@ -80,7 +77,7 @@ export default function NavBar() {
                     setMenuOpen(false);
                     setSettingsOpen(false);
                   }}
-                  className={({ isActive }) => (isActive ? styles.active : "")}
+                  className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   Grid
                 </NavLink>

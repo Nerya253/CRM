@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Obj } from "../data/MyObj";
-import styles from "./Clients.module.css";
+import "./Clients.css"; // קובץ CSS רגיל
+import Card from "../components/Card";
 
 export default function Clients() {
   const [searchType, setSearchType] = useState("");
@@ -29,14 +30,14 @@ export default function Clients() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <h1>Search Customer</h1>
 
-      <div className={styles.searchContainer}>
+      <div className="searchContainer">
         <select
           value={searchType}
           onChange={(e) => setSearchType(e.target.value)}
-          className={styles.searchSelect}
+          className="searchSelect"
         >
           <option value="">Select Search Type</option>
           <option value="id">ID</option>
@@ -50,30 +51,23 @@ export default function Clients() {
           placeholder="Search"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className={styles.searchInput}
+          className="searchInput"
         />
 
         <div>
-          <button onClick={clearSearch} className={styles.clearButton}>
+          <button onClick={clearSearch} className="clearButton">
             Clear Search
           </button>
         </div>
       </div>
 
       {filteredClients.length > 0 ? (
-        <div className={styles.results}>
+        <div className="results">
           <p id="count">
             <strong>{filteredClients.length}</strong> customer(s) found.
           </p>
           {filteredClients.map((client) => (
-            <div key={client.id} className={styles.clientCard}>
-              <h3>Customer Details</h3>
-              {Object.entries(client).map(([key, val]) => (
-                <p key={key}>
-                  <strong>{key}:</strong> {val}
-                </p>
-              ))}
-            </div>
+            <Card item={client} key={client.id} />
           ))}
         </div>
       ) : (

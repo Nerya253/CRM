@@ -13,9 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Router>
     <Header />
-    <nav>
-      <NavBar />
-    </nav>
+    <NavBar />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />

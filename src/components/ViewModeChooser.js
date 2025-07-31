@@ -1,4 +1,4 @@
-import styles from "./ViewModeChooser.module.css";
+import "./ViewModeChooser.css";
 import { Table, Grid } from "../Pages/Settings";
 import { useParams } from "react-router-dom";
 
@@ -6,7 +6,7 @@ export default function ViewModeChooser() {
   const { view } = useParams();
 
   return (
-    <div className={styles.wrapper}>
+    <div className="wrapper">
       {view === "table" && <Table />}
       {view === "grid" && <Grid />}
     </div>
