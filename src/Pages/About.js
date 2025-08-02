@@ -4,7 +4,6 @@ export default function About() {
       padding: "20px",
       lineHeight: "1.6",
       maxWidth: "600px",
-      margin: "0 auto",
       fontFamily: "Arial, sans-serif",
     },
     heading: {

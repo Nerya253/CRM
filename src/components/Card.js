@@ -1,10 +1,10 @@
-import "./ViewModeChooser.css";
+import styles from "./ViewModeChooser.module.css";
 
 function Card({ item }) {
   const { id, name, mail, phone, description } = item;
 
   return (
-    <div key={id} className="gridItem">
+    <div key={id} className={styles.gridItem}>
       <p>
         <strong>id:</strong> {id}
       </p>

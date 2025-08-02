@@ -3,8 +3,9 @@
   justify-content: space-between;
   align-items: center;
   background: #333;
-  padding: 15px 20p / x;
   color: white;
+  font-size: 20px;
+  padding: 10px 20px;
 }
 
 .hamburger {
@@ -19,30 +20,16 @@
   gap: 20px;
 }
 
-.nav-links li a,
-.settingsToggle {
+.nav-links li a {
   color: white;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
 }
 
 .active {
   font-weight: bold;
   border-bottom: 2px solid yellow;
-}
-
-.dropdown {
-  list-style: none;
-  background-color: #444;
-  position: absolute;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 5px;
-}
-
-.dropdown li {
-  margin: 5px 0;
 }
 
 @media (max-width: 768px) {
@@ -64,10 +51,5 @@
 
   .nav-links.active {
     display: flex;
-  }
-
-  .dropdown {
-    position: static;
-    margin: 0;
   }
 }

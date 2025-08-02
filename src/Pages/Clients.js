@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Obj } from "../data/MyObj";
-import "./Clients.css"; // קובץ CSS רגיל
-import Card from "../components/Card";
+import styles from "../components/ViewModeChooser.module.css";
+import ViewModeChooser from "../components/ViewModeChooser";
 
 export default function Clients() {
   const [searchType, setSearchType] = useState("");
@@ -30,14 +30,15 @@ export default function Clients() {
   };
 
   return (
-    <div className="container">
-      <h1>Search Customer</h1>
+    <div className={styles.searchContainer}>
+      <h1 style={{ fontFamily: "arial", fontSize: "40px" }}>Search Customer</h1>
 
-      <div className="searchContainer">
+      <div className={styles.searchSelectContainer}>
         <select
+          name="searchType"
           value={searchType}
           onChange={(e) => setSearchType(e.target.value)}
-          className="searchSelect"
+          className={styles.searchSelect}
         >
           <option value="">Select Search Type</option>
           <option value="id">ID</option>
@@ -51,24 +52,22 @@ export default function Clients() {
           placeholder="Search"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="searchInput"
+          className={styles.searchInput}
         />
 
         <div>
-          <button onClick={clearSearch} className="clearButton">
-            Clear Search
+          <button onClick={clearSearch} className={styles.clearButton}>
+            Clear
           </button>
         </div>
       </div>
 
       {filteredClients.length > 0 ? (
-        <div className="results">
+        <div>
           <p id="count">
             <strong>{filteredClients.length}</strong> customer(s) found.
           </p>
-          {filteredClients.map((client) => (
-            <Card item={client} key={client.id} />
-          ))}
+          <ViewModeChooser items={filteredClients} />
         </div>
       ) : (
         searchValue && <p>No customers found matching your search.</p>

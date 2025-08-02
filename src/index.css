@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  text-align: center;
+  background-color: #e5e3bc;
+  font-family: "Monoton";
+  font-size: 2rem;
+  text-transform: uppercase;
+  word-spacing: 30px;
+  padding: 10px;
+}

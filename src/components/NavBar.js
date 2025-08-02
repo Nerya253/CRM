@@ -1,89 +1,80 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import "./NavBar.css";
+import styles from "./NavBar.module.css"; // <- שים לב
+import { useView } from "../contexts/ViewContext";
+import {
+  FaHome,
+  FaUsers,
+  FaInfoCircle,
+  FaUserPlus,
+  FaThLarge,
+  FaTable,
+} from "react-icons/fa";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const { isCard, toggleView } = useView();
 
   return (
-    <nav className="navbar">
-      <div className="hamburger" onClick={() => setMenuOpen((prev) => !prev)}>
+    <nav className={styles.navbar}>
+      <div
+        className={styles.hamburger}
+        onClick={() => setMenuOpen((prev) => !prev)}
+      >
         ☰
       </div>
 
-      <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
+      <ul className={`${styles["nav-links"]} ${menuOpen ? styles.active : ""}`}>
         <li>
           <NavLink
             to="/"
             onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className={({ isActive }) => (isActive ? styles.active : "")}
           >
-            Home
+            <FaHome style={{ marginRight: "6px" }} /> Home
           </NavLink>
         </li>
         <li>
           <NavLink
             to="/About"
             onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className={({ isActive }) => (isActive ? styles.active : "")}
           >
-            About
+            <FaInfoCircle style={{ marginRight: "6px" }} /> About
           </NavLink>
         </li>
         <li>
           <NavLink
             to="/Clients"
             onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className={({ isActive }) => (isActive ? styles.active : "")}
           >
-            Clients
+            <FaUsers style={{ marginRight: "6px" }} /> Clients
           </NavLink>
         </li>
         <li>
           <NavLink
             to="/AddClients"
             onClick={() => setMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className={({ isActive }) => (isActive ? styles.active : "")}
           >
-            Add Client
+            <FaUserPlus style={{ marginRight: "6px" }} /> Add Client
           </NavLink>
         </li>
         <li>
-          <span
-            className="settings-toggle"
-            onClick={() => setSettingsOpen((prev) => !prev)}
-          >
-            Settings ▾
+          <span className={styles["settings-toggle"]} onClick={toggleView}>
+            {isCard ? (
+              <>
+                <FaTable style={{ marginRight: "6px" }} />
+                Switch to Table View
+              </>
+            ) : (
+              <>
+                <FaThLarge style={{ marginRight: "6px" }} />
+                Switch to Card View
+              </>
+            )}
           </span>
-          {settingsOpen && (
-            <ul className="dropdown">
-              <li>
-                <NavLink
-                  to="/Settings/table"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setSettingsOpen(false);
-                  }}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  Table
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/Settings/grid"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setSettingsOpen(false);
-                  }}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  Grid
-                </NavLink>
-              </li>
-            </ul>
-          )}
         </li>
       </ul>
     </nav>

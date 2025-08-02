@@ -1,14 +1,46 @@
-import "./ViewModeChooser.css";
-import { Table, Grid } from "../Pages/Settings";
-import { useParams } from "react-router-dom";
+import { useView } from "../contexts/ViewContext";
+import styles from "../components/ViewModeChooser.module.css"; // <-- CSS MODULES!!
+import Card from "../components/Card";
 
-export default function ViewModeChooser() {
-  const { view } = useParams();
+export default function ViewModeChooser({ items }) {
+  const { isCard } = useView();
+  return <div>{isCard ? <Grid items={items} /> : <Table items={items} />}</div>;
+}
+
+export function Table({ items }) {
+  if (!Array.isArray(items) || items.length === 0) return null;
 
   return (
-    <div className="wrapper">
-      {view === "table" && <Table />}
-      {view === "grid" && <Grid />}
+    <div className={styles.tableWrapper}>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            {Object.keys(items[0]).map((col) => (
+              <th key={col}>{col}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((item) => (
+            <tr key={item.id}>
+              {Object.values(item).map((val, idx) => (
+                <td key={idx}>{val}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export function Grid({ items }) {
+  if (!Array.isArray(items) || items.length === 0) return null;
+  return (
+    <div className={styles.gridContainer}>
+      {items.map((item) => (
+        <Card item={item} key={item.id} />
+      ))}
     </div>
   );
 }
