@@ -1,5 +1,5 @@
 import { useView } from "../contexts/ViewContext";
-import styles from "../components/ViewModeChooser.module.css"; // <-- CSS MODULES!!
+import styles from "../components/ViewModeChooser.module.css";
 import Card from "../components/Card";
 
 export default function ViewModeChooser({ items }) {

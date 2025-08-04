@@ -2,64 +2,59 @@ import { useState } from "react";
 import { Obj } from "../data/MyObj";
 import styles from "../components/ViewModeChooser.module.css";
 import ViewModeChooser from "../components/ViewModeChooser";
+import { useView } from "../contexts/ViewContext";
+import { FaTable, FaThLarge } from "react-icons/fa";
+import { Button } from "../components/Button";
 
 export default function Clients() {
-  const [searchType, setSearchType] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const { isCard, toggleView } = useView();
 
   const filteredClients = Obj.filter((client) => {
     const value = searchValue.trim().toLowerCase();
 
-    switch (searchType) {
-      case "id":
-        return String(client.id)?.startsWith(value);
-      case "name":
-        return client.name?.toLowerCase().startsWith(value);
-      case "email":
-        return client.mail?.toLowerCase().startsWith(value);
-      case "phone":
-        return client.phone?.startsWith(value);
-      default:
-        return true;
-    }
+    return (
+      String(client.id).toLowerCase().includes(value) ||
+      (client.name && client.name.toLowerCase().includes(value)) ||
+      (client.mail && client.mail.toLowerCase().includes(value)) ||
+      String(client.phone).toLowerCase().includes(value)
+    );
   });
 
   const clearSearch = () => {
-    setSearchType("");
     setSearchValue("");
   };
 
   return (
     <div className={styles.searchContainer}>
-      <h1 style={{ fontFamily: "arial", fontSize: "40px" }}>Search Customer</h1>
+      <div className={styles.searchHeader}>
+        <h1 className={styles.clientsHeader}>Search Customer</h1>
+        <div className={styles.searchSelectContainer}>
+          <input
+            type="text"
+            placeholder="Search"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className={styles.searchInput}
+          />
 
-      <div className={styles.searchSelectContainer}>
-        <select
-          name="searchType"
-          value={searchType}
-          onChange={(e) => setSearchType(e.target.value)}
-          className={styles.searchSelect}
-        >
-          <option value="">Select Search Type</option>
-          <option value="id">ID</option>
-          <option value="name">Name</option>
-          <option value="email">Email</option>
-          <option value="phone">Phone</option>
-        </select>
-
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          className={styles.searchInput}
-        />
-
-        <div>
-          <button onClick={clearSearch} className={styles.clearButton}>
+          <Button onClick={clearSearch} className={"clearButton"}>
             Clear
-          </button>
+          </Button>
         </div>
+        <Button onClick={toggleView}>
+          {isCard ? (
+            <>
+              change view
+              <FaTable style={{ marginLeft: "6px" }} />
+            </>
+          ) : (
+            <>
+              change view
+              <FaThLarge style={{ marginLeft: "6px" }} />
+            </>
+          )}
+        </Button>
       </div>
 
       {filteredClients.length > 0 ? (

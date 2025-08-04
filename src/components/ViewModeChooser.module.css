@@ -57,29 +57,31 @@
 .searchContainer {
   box-sizing: border-box;
   padding: 10px 20px;
+  margin-top: 20px;
 }
 
 .searchSelectContainer {
   display: flex;
-  flex-direction: column;
-  width: 50%;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  flex-direction: row;
+  width: 30%;
 }
 
 .searchInput {
   display: flex;
   width: 100%;
+  height: 100%;
   padding: 10px;
-  margin-top: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   align-items: center;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .searchSelect {
-  width: 100%;
+  width: 15%;
+  height: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -98,16 +100,19 @@
   outline: none;
 }
 
-.clearButton {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 #count {
   font-weight: bold;
   margin-top: 10px;
+}
+
+.searchHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.clientsHeader {
+  font-family: fantasy;
+  letter-spacing: 2px;
+  font-size: 40px;
+  margin-bottom: 20px;
 }

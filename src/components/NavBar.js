@@ -1,19 +1,10 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./NavBar.module.css"; // <- שים לב
-import { useView } from "../contexts/ViewContext";
-import {
-  FaHome,
-  FaUsers,
-  FaInfoCircle,
-  FaUserPlus,
-  FaThLarge,
-  FaTable,
-} from "react-icons/fa";
+import { FaHome, FaUsers, FaInfoCircle, FaUserPlus } from "react-icons/fa";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isCard, toggleView } = useView();
 
   return (
     <nav className={styles.navbar}>
@@ -60,21 +51,6 @@ export default function NavBar() {
           >
             <FaUserPlus style={{ marginRight: "6px" }} /> Add Client
           </NavLink>
-        </li>
-        <li>
-          <span className={styles["settings-toggle"]} onClick={toggleView}>
-            {isCard ? (
-              <>
-                <FaTable style={{ marginRight: "6px" }} />
-                Switch to Table View
-              </>
-            ) : (
-              <>
-                <FaThLarge style={{ marginRight: "6px" }} />
-                Switch to Card View
-              </>
-            )}
-          </span>
         </li>
       </ul>
     </nav>

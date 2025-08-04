@@ -1,0 +1,16 @@
+.button {
+  background-color: #548fa3;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.clearButton {
+  background-color: #ff4d4d;
+}
+
+.addClientBtn {
+  margin-top: 20px;
+}

@@ -1,6 +1,6 @@
 .container {
   width: 50%;
-  margin: 0 auto;
+  margin: 30px;
 }
 
 .input {
@@ -9,4 +9,11 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-top: 5px;
+}
+
+.addClientHeader {
+  font-family: fantasy;
+  font-size: 40px;
+  margin: 30px;
+  color: #000000;
 }
