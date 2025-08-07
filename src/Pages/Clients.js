@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Obj } from "../data/MyObj";
 import styles from "../components/ViewModeChooser.module.css";
 import ViewModeChooser from "../components/ViewModeChooser";
 import { useView } from "../contexts/ViewContext";
 import { FaTable, FaThLarge } from "react-icons/fa";
 import { Button } from "../components/Button";
+import { useClients } from "../contexts/ClientsContext";
 
 export default function Clients() {
+  const { clients } = useClients();
+
   const [searchValue, setSearchValue] = useState("");
   const { isCard, toggleView } = useView();
 
-  const filteredClients = Obj.filter((client) => {
+  const filteredClients = clients.filter((client) => {
     const value = searchValue.trim().toLowerCase();
 
     return (

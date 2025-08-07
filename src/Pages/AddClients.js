@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Obj } from "../data/MyObj";
+import { useClients } from "../contexts/ClientsContext";
 import styles from "./AddClients.module.css";
 import Button from "../components/Button";
 
 export default function AddClients() {
+  const { clients, addClient } = useClients(); // clients, לא client
+
   const [newClient, setNewClient] = useState({
     id: "",
     name: "",
@@ -23,12 +25,23 @@ export default function AddClients() {
       alert("Please fill all fields.");
       return;
     }
-    if (newClient.id.length < 9 || newClient.id.length > 9) {
+    if (newClient.id.length !== 9) {
       alert("ID must be exactly 9 characters long.");
       return;
     }
 
-    Obj.push(newClient);
+    if (clients.some((c) => c.id === parseInt(newClient.id, 10))) {
+      alert("A customer with this ID already exists in the system!");
+      return;
+    }
+
+    addClient({
+      id: parseInt(newClient.id, 10),
+      name: newClient.name,
+      phone: newClient.phone,
+      mail: newClient.mail,
+    });
+
     setNewClient({
       id: "",
       name: "",
@@ -67,9 +80,8 @@ export default function AddClients() {
           placeholder="Email"
           value={newClient.mail}
           onChange={(e) => setNewClient({ ...newClient, mail: e.target.value })}
-          required
-          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
           title="יש להזין כתובת מייל תקינה (לדוג' name@mail.com)"
+          required
         />
 
         <input
@@ -84,7 +96,6 @@ export default function AddClients() {
           title="מספר טלפון ישראלי חייב להתחיל ב-0 ולכלול 9 או 10 ספרות"
           required
         />
-
         <Button className={"addClientBtn"} type="submit">
           Add Client
         </Button>

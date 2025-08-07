@@ -1,6 +1,7 @@
 import { useView } from "../contexts/ViewContext";
 import styles from "../components/ViewModeChooser.module.css";
 import Card from "../components/Card";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewModeChooser({ items }) {
   const { isCard } = useView();
@@ -8,6 +9,8 @@ export default function ViewModeChooser({ items }) {
 }
 
 export function Table({ items }) {
+  const navigate = useNavigate();
+
   if (!Array.isArray(items) || items.length === 0) return null;
 
   return (
@@ -22,7 +25,12 @@ export function Table({ items }) {
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item.id}>
+            <tr
+              key={item.id}
+              className={styles.tableRow}
+              onClick={() => navigate(`/client/${item.id}`)}
+              style={{ cursor: "pointer" }}
+            >
               {Object.values(item).map((val, idx) => (
                 <td key={idx}>{val}</td>
               ))}

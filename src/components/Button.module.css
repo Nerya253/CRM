@@ -14,3 +14,19 @@
 .addClientBtn {
   margin-top: 20px;
 }
+
+.smallBtn {
+  background: #eee;
+  border: black solid 1px;
+  border-radius: 6px;
+  padding: 2px 4px;
+  min-width: 20px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.smallBtn:hover {
+  background: #d1d1d1;
+}
