@@ -73,13 +73,13 @@ function ClientsProvider({ children }) {
   ]);
 
   function addClient({ id, name, phone, mail }) {
-    return setClients((prev) => [...prev, { id, name, phone, mail }]);
+    setClients((prev) => [...prev, { id, name, phone, mail }]);
   }
 
   function updateClient(updatedClient) {
-    setClients((prev) => {
-      return prev.map((c) => (c.id === updatedClient.id ? updatedClient : c));
-    });
+    setClients((prev) =>
+      prev.map((c) => (c.id === updatedClient.id ? updatedClient : c))
+    );
   }
 
   function deleteClient(id) {

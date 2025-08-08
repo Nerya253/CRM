@@ -1,10 +1,18 @@
 import styles from "./ViewModeChooser.module.css";
 
-function Card({ item }) {
+function Card({ item, onClick, style }) {
   const { id, name, mail, phone } = item;
+  console.log(`Card rendered for item with id: ${id}`);
 
   return (
-    <div key={id} className={styles.gridItem}>
+    <div
+      key={id}
+      className={styles.gridItem}
+      onClick={onClick}
+      style={{ ...style, cursor: "pointer" }}
+      tabIndex={0}
+      role="button"
+    >
       <p>
         <strong>id:</strong> {id}
       </p>

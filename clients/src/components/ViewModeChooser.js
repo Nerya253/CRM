@@ -43,12 +43,22 @@ export function Table({ items }) {
 }
 
 export function Grid({ items }) {
+  const navigate = useNavigate();
+
   if (!Array.isArray(items) || items.length === 0) return null;
   return (
     <div className={styles.gridContainer}>
-      {items.map((item) => (
-        <Card item={item} key={item.id} />
-      ))}
+      {items.map((item) => {
+        console.log("item.id:", item.id);
+        return (
+          <Card
+            item={item}
+            key={item.id}
+            onClick={() => navigate(`/client/${item.id}`)}
+            style={{ cursor: "pointer" }}
+          />
+        );
+      })}
     </div>
   );
 }
