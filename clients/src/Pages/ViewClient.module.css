@@ -1,0 +1,51 @@
+.ViewClient {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.ViewClientHeader {
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-weight: 800;
+  color: #0b3a46;
+  letter-spacing: 0.3px;
+  font-size: 60px;
+}
+
+.ViewClientform {
+  --gap: 14px;
+  width: min(920px, 92vw);
+  margin: 18px auto 26px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+
+.ViewClientform > label {
+  width: 100%;
+}
+
+.rowFull {
+  grid-column: 1 / -1;
+}
+
+.viewBtns {
+  display: flex;
+  justify-content: center;
+}
+
+/* מובייל וטאבלט */
+@media (max-width: 900px) {
+  .ViewClientform {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* אזור הכפתורים מתחת לטופס בעמוד */
+.actions {
+  width: min(920px, 92vw);
+  margin: 0 auto 60px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

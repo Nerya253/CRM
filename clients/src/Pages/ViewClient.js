@@ -1,115 +1,140 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+// ViewClient.jsx
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../components/Button";
 import { useState, useEffect } from "react";
-import { useClients } from "../contexts/ClientsContext";
+import styles from "./ViewClient.module.css";
+import LabelField from "../components/LabelField";
 
 export default function ViewClient() {
   const navigate = useNavigate();
-
   const { id } = useParams();
-  const { clients, updateClient } = useClients();
 
-  const client = clients.find((item) => item.id === parseInt(id, 10));
-
+  const [client, setClient] = useState(null);
   const [edit, setEdit] = useState(false);
-  const [editName, setEditName] = useState(client.name);
-  const [editPhone, setEditPhone] = useState(client.phone);
-  const [editMail, setEditMail] = useState(client.mail);
+  const [editName, setEditName] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editMail, setEditMail] = useState("");
 
   useEffect(() => {
-    setEditName(client.name);
-    setEditPhone(client.phone);
-    setEditMail(client.mail);
-  }, [client]);
+    (async () => {
+      try {
+        const res = await fetch(`http://localhost:4371/clients/${id}`);
+        if (!res.ok) throw new Error(`GET ${res.status}`);
+        const c = await res.json();
+        setClient(c);
+        setEditName(c?.name ?? "");
+        setEditPhone(c?.phone ?? "");
+        setEditMail(c?.mail ?? "");
+      } catch (e) {
+        console.error("GET client failed:", e);
+        setClient(null);
+      }
+    })();
+  }, [id]);
 
-  function handleSave() {
-    updateClient({
-      id: client.id,
-      name: editName,
-      phone: editPhone,
-      mail: editMail,
-    });
-    setEdit(false);
+  async function handleSave() {
+    try {
+      const res = await fetch(
+        `http://localhost:4371/clients/updateClient/${id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: editName,
+            phone: editPhone,
+            mail: editMail,
+          }),
+        }
+      );
+      if (!res.ok) throw new Error(`PUT ${res.status}`);
+      const updated = await res.json();
+      setClient(updated);
+      setEdit(false);
+      navigate("/clients");
+    } catch (e) {
+      console.error("PUT client failed:", e);
+    }
   }
+
+  async function handleDelete() {
+    if (!window.confirm("Delete the customer?")) return;
+    try {
+      const res = await fetch(
+        `http://localhost:4371/clients/deleteClient/${id}`,
+        { method: "DELETE" }
+      );
+      if (!res.ok) throw new Error(`DELETE ${res.status}`);
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : null;
+      if (!data || data.success) navigate("/clients");
+      else navigate("/clients");
+    } catch (e) {
+      console.error("DELETE client failed:", e);
+      alert("מחיקה נכשלה");
+    }
+  }
+
+  if (!client) return <div style={{ margin: 30 }}>Loading…</div>;
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "30px",
-          fontSize: "30px",
-          fontFamily: "fantasy",
-        }}
-      >
-        <h1>View Client</h1>
-        <Button
-          onClick={() => {
-            if (edit) handleSave();
-            else setEdit(true);
-          }}
-        >
-          {edit ? "שמור" : "ערוך"}
-        </Button>
+      <div className={styles.ViewClient}>
+        <h1 className={styles.ViewClientHeader}>View Client</h1>
       </div>
 
       <form
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-          margin: "30px",
-          fontSize: "20px",
-          fontFamily: "Arial, sans-serif",
-        }}
+        className={styles.ViewClientform}
         onSubmit={(e) => {
           e.preventDefault();
-          if (edit) handleSave();
-          Navigate(`/client`);
+          edit ? handleSave() : setEdit(true);
         }}
       >
-        <label>
-          <strong>id: </strong>
-          <span style={{ marginRight: 10 }}>{id}</span>
-        </label>
-        <label>
-          <strong>name: </strong>
-          {edit ? (
-            <input
-              type="text"
-              value={editName}
-              onChange={(e) => setEditName(e.target.value)}
-            />
-          ) : (
-            <span style={{ marginRight: 10 }}>{editName}</span>
-          )}
-        </label>
-        <label>
-          <strong>phone: </strong>
-          {edit ? (
-            <input
-              type="text"
-              value={editPhone}
-              onChange={(e) => setEditPhone(e.target.value)}
-            />
-          ) : (
-            <span style={{ marginRight: 10 }}>{editPhone}</span>
-          )}
-        </label>
-        <label>
-          <strong>mail: </strong>
-          {edit ? (
-            <input
-              type="text"
-              value={editMail}
-              onChange={(e) => setEditMail(e.target.value)}
-            />
-          ) : (
-            <span style={{ marginRight: 10 }}>{editMail}</span>
-          )}
-        </label>
+        <LabelField
+          className="ViewLabel"
+          label="id"
+          value={client.id}
+          editMode={false}
+        />
+        <LabelField
+          label="name"
+          value={client.name}
+          editValue={editName}
+          setEditValue={setEditName}
+          editMode={edit}
+          inputType="text"
+          className="ViewLabel"
+        />
+        <LabelField
+          label="phone"
+          value={client.phone}
+          editValue={editPhone}
+          setEditValue={setEditPhone}
+          editMode={edit}
+          inputType="tel"
+          className="ViewLabel"
+        />
+        <LabelField
+          label="mail"
+          value={client.mail}
+          editValue={editMail}
+          setEditValue={setEditMail}
+          editMode={edit}
+          inputType="email"
+          className="ViewLabel"
+        />
       </form>
+
+      <div className={styles.viewBtns}>
+        <Button
+          className="updateBtn"
+          onClick={() => (edit ? handleSave() : setEdit(true))}
+        >
+          {edit ? "Save" : "Edit"}
+        </Button>{" "}
+        <Button className="deleteBtn" onClick={handleDelete}>
+          delete
+        </Button>
+      </div>
     </>
   );
 }

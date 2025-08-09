@@ -4,13 +4,20 @@ import ViewModeChooser from "../components/ViewModeChooser";
 import { useView } from "../contexts/ViewContext";
 import { FaTable, FaThLarge } from "react-icons/fa";
 import { Button } from "../components/Button";
-import { useClients } from "../contexts/ClientsContext";
+import { useEffect } from "react";
 
 export default function Clients() {
-  const { clients } = useClients();
+  const [clients, setClients] = useState([]);
 
   const [searchValue, setSearchValue] = useState("");
   const { isCard, toggleView } = useView();
+
+  useEffect(() => {
+    fetch("http://localhost:4371/clients/viewClients")
+      .then((res) => res.json())
+      .then((data) => setClients(data))
+      .catch((e) => console.error(e));
+  }, []);
 
   const filteredClients = clients.filter((client) => {
     const value = searchValue.trim().toLowerCase();

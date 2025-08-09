@@ -49,7 +49,6 @@ export function Grid({ items }) {
   return (
     <div className={styles.gridContainer}>
       {items.map((item) => {
-        console.log("item.id:", item.id);
         return (
           <Card
             item={item}

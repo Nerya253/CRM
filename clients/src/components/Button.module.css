@@ -30,3 +30,35 @@
 .smallBtn:hover {
   background: #d1d1d1;
 }
+
+.updateBtn {
+  background: #43c5b5;
+  color: #053135;
+  margin: 10px;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+}
+.updateBtn:hover {
+  filter: brightness(1.05);
+  background: #7fe3d6;
+}
+.updateBtn:focus {
+  outline: 3px solid rgba(67, 197, 181, 0.35);
+}
+
+.deleteBtn {
+  background: #ff6b6f;
+  color: #3b0608;
+  margin: 10px;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+}
+.deleteBtn:hover {
+  filter: brightness(1.06);
+  background: #ff9fa1;
+}
+.deleteBtn:focus {
+  outline: 3px solid rgba(255, 107, 111, 0.35);
+}

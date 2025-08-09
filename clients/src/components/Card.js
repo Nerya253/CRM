@@ -2,7 +2,6 @@ import styles from "./ViewModeChooser.module.css";
 
 function Card({ item, onClick, style }) {
   const { id, name, mail, phone } = item;
-  console.log(`Card rendered for item with id: ${id}`);
 
   return (
     <div

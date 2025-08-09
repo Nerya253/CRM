@@ -4,14 +4,35 @@ export async function findAllClients() {
   return getCollection().find({}).toArray();
 }
 
-export async function addClient(doc) {
-  const requiredFields = ["id", "name", "phone", "mail"];
-  for (const field of requiredFields) {
-    if (!doc[field]) {
-      throw new Error(`Missing required field: ${field}`);
-    }
-  }
+export async function findOneClient(id) {
+  return getCollection().findOne({ id: id });
+}
 
-  const result = await getCollection().insertOne(doc);
-  return { _id: result.insertedId, ...doc };
+export async function addClient(doc) {
+  const res = await getCollection().insertOne(doc);
+  return { _id: String(res.insertedId), ...doc };
+}
+
+export async function updateClient(doc) {
+  if (!doc || doc.id == null) throw new Error("Missing required field: id");
+  const { id, ...patchRaw } = doc;
+
+  const patch = Object.fromEntries(
+    Object.entries(patchRaw).filter(([, v]) => v !== undefined)
+  );
+
+  const result = await getCollection().findOneAndUpdate(
+    { id: String(id) },
+    { $set: patch },
+    {
+      returnDocument: "after",
+    }
+  );
+
+  return result?.value ?? result ?? null;
+}
+
+export async function deleteClient(id) {
+  const res = await getCollection().deleteOne({ id: id });
+  return res.deletedCount > 0;
 }
