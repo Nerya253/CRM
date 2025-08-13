@@ -9,22 +9,25 @@ import AddClients from "./Pages/AddClients";
 import ViewModeChooser from "./components/ViewModeChooser";
 import { ViewProvider } from "./contexts/ViewContext";
 import ViewClient from "./Pages/ViewClient";
+import { ClientProvider } from "./contexts/ClientsFetchContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ViewProvider>
-    <BrowserRouter>
-      <Header />
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/clients" element={<Clients />} />
-        <Route path="/client/:id" element={<ViewClient />} />
-        <Route path="/Settings" element={<ViewModeChooser />} />
-        <Route path="/AddClients" element={<AddClients />} />
-      </Routes>
-    </BrowserRouter>
-  </ViewProvider>
+  <ClientProvider>
+    <ViewProvider>
+      <BrowserRouter>
+        <Header />
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/client/:id" element={<ViewClient />} />
+          <Route path="/Settings" element={<ViewModeChooser />} />
+          <Route path="/AddClients" element={<AddClients />} />
+        </Routes>
+      </BrowserRouter>
+    </ViewProvider>
+  </ClientProvider>
 );

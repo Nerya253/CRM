@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../components/LabelField.module.css";
+import styles from "../Styles/LabelField.module.css";
 
 export default function LabelField({
   label,

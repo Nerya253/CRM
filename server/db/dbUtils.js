@@ -1,7 +1,9 @@
 import { getCollection } from "./db_connection.js";
 
 export async function findAllClients() {
-  return getCollection().find({}).toArray();
+  return getCollection()
+    .find({}, { projection: { _id: 0 } })
+    .toArray();
 }
 
 export async function findOneClient(id) {

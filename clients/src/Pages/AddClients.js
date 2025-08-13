@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import styles from "./AddClients.module.css";
-import Button from "../components/Button";
+import React, { useState } from "react";
+import styles from "../Styles/AddClients.module.css";
+import { Button } from "../components/Button";
+import { useClients } from "../contexts/ClientsFetchContext";
 
 export default function AddClients() {
-  const [clients, setClients] = useState([]);
+  const { clients, addClientFetch } = useClients();
 
   const [newClient, setNewClient] = useState({
     id: "",
@@ -11,13 +12,6 @@ export default function AddClients() {
     phone: "",
     mail: "",
   });
-
-  useEffect(() => {
-    fetch("http://localhost:4371/clients/viewClients")
-      .then((res) => res.json())
-      .then((data) => setClients(data))
-      .catch((e) => console.error(e));
-  }, []);
 
   const handleSubmit = async (e) => {
     if (
@@ -49,22 +43,12 @@ export default function AddClients() {
     }
 
     try {
-      const res = await fetch("http://localhost:4371/clients/addClient", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: newClient.id,
-          name: newClient.name,
-          phone: newClient.phone,
-          mail: newClient.mail,
-        }),
+      await addClientFetch({
+        id: newClient.id,
+        name: newClient.name,
+        phone: newClient.phone,
+        mail: newClient.mail,
       });
-
-      if (!res.ok) throw new Error(`POST ${res.status}`);
-      const savedClient = await res.json();
-
-      setClients((prev) => [...prev, savedClient]);
-
       setNewClient({ id: "", name: "", phone: "", mail: "" });
     } catch (error) {
       console.error("Failed to add client:", error);

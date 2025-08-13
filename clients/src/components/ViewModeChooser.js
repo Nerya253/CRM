@@ -1,5 +1,5 @@
 import { useView } from "../contexts/ViewContext";
-import styles from "../components/ViewModeChooser.module.css";
+import styles from "../Styles/ViewModeChooser.module.css";
 import Card from "../components/Card";
 import { useNavigate } from "react-router-dom";
 
@@ -54,7 +54,6 @@ export function Grid({ items }) {
             item={item}
             key={item.id}
             onClick={() => navigate(`/client/${item.id}`)}
-            style={{ cursor: "pointer" }}
           />
         );
       })}

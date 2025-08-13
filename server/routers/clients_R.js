@@ -13,7 +13,7 @@ clientRouter.get("/viewClients", async (req, res) => {
     const items = await findAllClients();
     res.json(items);
   } catch (error) {
-    console.error("❌ viewClients error:", error);
+    console.error("viewClients error:", error);
     res.status(500).json({ error: "viewClients: Internal server error" });
   }
 });
@@ -24,7 +24,7 @@ clientRouter.get("/:id", async (req, res) => {
     const items = await findOneClient(id);
     res.json(items);
   } catch (error) {
-    console.error("❌ getClient error:", error);
+    console.error("getClient error:", error);
     res.status(500).json({ error: "getClient: Internal server error" });
   }
 });
@@ -35,7 +35,7 @@ clientRouter.post("/addClient", async (req, res) => {
     const saved = await addClient(payload);
     res.status(201).json(saved);
   } catch (error) {
-    console.error("❌ addClient error:", error);
+    console.error("addClient error:", error);
     res.status(500).json({ error: "addClient: Internal server error" });
   }
 });
@@ -58,7 +58,7 @@ clientRouter.delete("/deleteClient/:id", async (req, res) => {
     const deleted = await deleteClient(req.params.id);
     res.json({ success: deleted });
   } catch (error) {
-    console.error("❌ deleteClient error:", error);
+    console.error("deleteClient error:", error);
     res.status(500).json({ error: "deleteClient: Internal server error" });
   }
 });

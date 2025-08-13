@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import styles from "./NavBar.module.css";
+import styles from "../Styles/NavBar.module.css";
 import { FaHome, FaUsers, FaInfoCircle, FaUserPlus } from "react-icons/fa";
 
 export default function NavBar() {

@@ -1,4 +1,4 @@
-import styles from "./ViewModeChooser.module.css";
+import styles from "../Styles/ViewModeChooser.module.css";
 
 function Card({ item, onClick, style }) {
   const { id, name, mail, phone } = item;

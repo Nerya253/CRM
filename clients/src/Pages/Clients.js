@@ -1,23 +1,15 @@
 import { useState } from "react";
-import styles from "../components/ViewModeChooser.module.css";
+import styles from "../Styles/ViewModeChooser.module.css";
 import ViewModeChooser from "../components/ViewModeChooser";
 import { useView } from "../contexts/ViewContext";
 import { FaTable, FaThLarge } from "react-icons/fa";
 import { Button } from "../components/Button";
-import { useEffect } from "react";
+import { useClients } from "../contexts/ClientsFetchContext";
 
 export default function Clients() {
-  const [clients, setClients] = useState([]);
-
-  const [searchValue, setSearchValue] = useState("");
+  const { clients } = useClients();
   const { isCard, toggleView } = useView();
-
-  useEffect(() => {
-    fetch("http://localhost:4371/clients/viewClients")
-      .then((res) => res.json())
-      .then((data) => setClients(data))
-      .catch((e) => console.error(e));
-  }, []);
+  const [searchValue, setSearchValue] = useState("");
 
   const filteredClients = clients.filter((client) => {
     const value = searchValue.trim().toLowerCase();
@@ -34,7 +26,7 @@ export default function Clients() {
     setSearchValue("");
   };
 
-  return (
+  return clients.length ? (
     <div className={styles.searchContainer}>
       <div className={styles.searchHeader}>
         <h1 className={styles.clientsHeader}>Search Customer</h1>
@@ -66,16 +58,18 @@ export default function Clients() {
         </Button>
       </div>
 
-      {filteredClients.length > 0 ? (
-        <div>
-          <p id="count">
-            <strong>{filteredClients.length}</strong> customer(s) found.
-          </p>
-          <ViewModeChooser items={filteredClients} />
-        </div>
-      ) : (
-        searchValue && <p>No customers found matching your search.</p>
-      )}
+      <div>
+        {filteredClients.length > 0 ? (
+          <>
+            <p id={styles.count}>
+              <strong>{filteredClients.length}</strong> customer(s) found.
+            </p>
+            <ViewModeChooser items={filteredClients} />
+          </>
+        ) : (
+          searchValue && <p>No customers found matching your search.</p>
+        )}
+      </div>
     </div>
-  );
+  ) : null;
 }

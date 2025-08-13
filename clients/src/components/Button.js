@@ -1,4 +1,4 @@
-import styles from "../components/Button.module.css";
+import styles from "../Styles/Button.module.css";
 
 export function Button({ onClick, className, children, type = "button" }) {
   return (

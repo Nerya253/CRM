@@ -1,6 +1,7 @@
 .container {
-  width: 50%;
+  width: 40%;
   margin: 30px;
+  margin-left: 100px;
 }
 
 .input {
@@ -16,4 +17,5 @@
   font-size: 40px;
   margin: 30px;
   color: #000000;
+  margin-left: 100px;
 }
