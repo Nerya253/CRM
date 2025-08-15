@@ -9,12 +9,13 @@ import AddClients from "./Pages/AddClients";
 import ViewModeChooser from "./components/ViewModeChooser";
 import { ViewProvider } from "./contexts/ViewContext";
 import ViewClient from "./Pages/ViewClient";
-import { ClientProvider } from "./contexts/ClientsFetchContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ClientProvider>
+  <QueryClientProvider client={queryClient}>
     <ViewProvider>
       <BrowserRouter>
         <Header />
@@ -29,5 +30,5 @@ root.render(
         </Routes>
       </BrowserRouter>
     </ViewProvider>
-  </ClientProvider>
+  </QueryClientProvider>
 );

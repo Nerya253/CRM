@@ -7,6 +7,7 @@ export async function findAllClients() {
 }
 
 export async function findOneClient(id) {
+  console.log(`Finding client with ID: ${id}`);
   return getCollection().findOne({ id: id });
 }
 

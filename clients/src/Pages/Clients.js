@@ -4,12 +4,16 @@ import ViewModeChooser from "../components/ViewModeChooser";
 import { useView } from "../contexts/ViewContext";
 import { FaTable, FaThLarge } from "react-icons/fa";
 import { Button } from "../components/Button";
-import { useClients } from "../contexts/ClientsFetchContext";
+import { useAllClients } from "../API/useQuery";
 
 export default function Clients() {
-  const { clients } = useClients();
+  const { isPending, error, data: clients } = useAllClients();
+
   const { isCard, toggleView } = useView();
   const [searchValue, setSearchValue] = useState("");
+
+  if (isPending) return "Loading...";
+  if (error) return "An error has occurred: " + error.message;
 
   const filteredClients = clients.filter((client) => {
     const value = searchValue.trim().toLowerCase();
