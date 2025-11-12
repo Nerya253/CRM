@@ -1,0 +1,15 @@
+.button {
+  background-color: #548fa3;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #053135;
+  margin: 10px;
+  width: 150px;
+  height: 50px;
+}
+
+.loginBtn {
+  margin: 0 auto;
+}

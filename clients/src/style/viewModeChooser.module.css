@@ -1,0 +1,83 @@
+.empty {
+  text-align: center;
+  margin-top: 24px;
+  opacity: 0.7;
+}
+
+/* טבלה */
+.tableWrapper {
+  margin-top: 20px;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: min(1100px, 100%);
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: #c9c8c8;
+  font-weight: bold;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.tableRow {
+  cursor: pointer;
+}
+
+.tableRow:hover,
+.tableRow:focus {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+  background: #efefef;
+}
+
+/* גריד */
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 210px));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.gridItem {
+  max-width: 350px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  text-align: start;
+}
+
+.gridItem:hover {
+  border-color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.gridItem p {
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+.gridItem strong {
+  color: #333;
+}
