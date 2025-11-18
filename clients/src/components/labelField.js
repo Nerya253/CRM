@@ -12,7 +12,7 @@ export default function LabelField({
   className = 'ViewLabel',
   disabled = false,
 }) {
-  const displayText = value == null || String(value).trim() === '' ? placeholder : String(value);
+  const displayText = value == null || value.trim() === '' ? placeholder : value;
 
   function handleChange(e) {
     if (!setEditValue) return;
@@ -25,12 +25,7 @@ export default function LabelField({
 
       {editMode ? (
         inputType === 'select' ? (
-          <select
-            className={Styles.viewInput}
-            value={editValue ?? ''}
-            onChange={handleChange}
-            disabled={disabled}
-          >
+          <select className={Styles.viewInput} value={editValue ?? ''} onChange={handleChange} disabled={disabled}>
             <option value="" disabled>
               {placeholder || 'Choose a role..'}
             </option>

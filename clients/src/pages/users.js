@@ -15,19 +15,13 @@ export function Users() {
 
   const filteredUsers = users?.filter((user) => {
     const value = searchValue.trim().toLowerCase();
+    if (!user) return null;
     return (
-      String(user?.id ?? '')
-        .toLowerCase()
-        .includes(value) ||
-      String(user?.name ?? '')
-        .toLowerCase()
-        .includes(value) ||
-      String(user?.email ?? '')
-        .toLowerCase()
-        .includes(value) ||
-      String(user?.phone ?? '')
-        .toLowerCase()
-        .includes(value)
+      user?.id.toLowerCase().includes(value) ||
+      user?.name.toLowerCase().includes(value) ||
+      user?.email.toLowerCase().includes(value) ||
+      user?.phone.toLowerCase().includes(value) ||
+      user?.id.toLowerCase().includes(value)
     );
   });
 
@@ -36,13 +30,7 @@ export function Users() {
       <h1>Search user</h1>
 
       <div className={styles.searchConteiner}>
-        <LabelField
-          editMode={true}
-          inputType="text"
-          placeholder="Search…"
-          editValue={searchValue}
-          setEditValue={setSearchValue}
-        />
+        <LabelField editMode={true} inputType="text" placeholder="Search…" editValue={searchValue} setEditValue={setSearchValue} />
       </div>
       <div>
         <Button onClick={toggleView}>

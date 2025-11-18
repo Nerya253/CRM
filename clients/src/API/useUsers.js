@@ -39,7 +39,7 @@ export function useCurrentUser() {
   return useQuery({
     queryKey: ['currentUser'],
     queryFn: getCurrentUser,
-    retry: (count, error) => error?.message !== 'Unauthorized',
+    refetchInterval: 60 * 1000,
   });
 }
 

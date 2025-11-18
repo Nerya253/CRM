@@ -14,7 +14,7 @@ export function ViewUser() {
   const me = useCurrentUser();
   const currUser = me?.data?.user;
 
-  const isSelf = !!(currUser && user && String(currUser.id) === String(user.id));
+  const isSelf = !!(currUser && user && currUser.id === user.id);
 
   const updateUser = useUpdateUser();
   const removeUser = useDeleteUser();
@@ -62,7 +62,7 @@ export function ViewUser() {
         id,
         patch: {
           name: editName,
-          phone: String(editPhone),
+          phone: editPhone,
           email: editEmail,
           ...(isSelf ? {} : { role: editRole }),
         },
@@ -148,26 +148,14 @@ export function ViewUser() {
       </form>
 
       <div>
-        <Button
-          className="backBtn"
-          onClick={() => navigate('/users')}
-          disabled={updateUser.isPending || removeUser.isPending}
-        >
+        <Button className="backBtn" onClick={() => navigate('/users')} disabled={updateUser.isPending || removeUser.isPending}>
           back
         </Button>
-        <Button
-          className="updateBtn"
-          onClick={() => (edit ? handleSave() : setEdit(true))}
-          disabled={updateUser.isPending || removeUser.isPending}
-        >
+        <Button className="updateBtn" onClick={() => (edit ? handleSave() : setEdit(true))} disabled={updateUser.isPending || removeUser.isPending}>
           {updateUser.isPending ? 'Saving…' : edit ? 'Save' : 'Edit'}
         </Button>
         {isSelf ? null : (
-          <Button
-            className="deleteBtn"
-            onClick={handleDelete}
-            disabled={updateUser.isPending || removeUser.isPending}
-          >
+          <Button className="deleteBtn" onClick={handleDelete} disabled={updateUser.isPending || removeUser.isPending}>
             {removeUser.isPending ? 'Deleting…' : 'delete'}
           </Button>
         )}

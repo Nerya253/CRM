@@ -1,14 +1,5 @@
 import { Router } from 'express';
-import {
-  addUser,
-  deleteUser,
-  findAllUsers,
-  findClientsByUserId,
-  findOneUser,
-  loginUser,
-  registerUser,
-  updateUser,
-} from '../db/dbUtils.js';
+import { addUser, deleteUser, findAllUsers, findClientsByUserId, findOneUser, loginUser, registerUser, updateUser } from '../db/dbUtils.js';
 import { requireAdmin, verifyToken } from '../middleware/auth.js';
 
 export const userRouter = Router();
@@ -132,7 +123,6 @@ userRouter.post('/login', async (req, res) => {
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000,
     });
 

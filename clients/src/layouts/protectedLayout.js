@@ -19,7 +19,7 @@ export function ProtectedLayout({ roles }) {
   }
   return (
     <>
-      <NavBar user={user} />
+      <NavBar />
       <Outlet />
     </>
   );

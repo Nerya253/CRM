@@ -9,7 +9,7 @@ export function ViewProvider({ children }) {
   function toggleView() {
     setIsCard((prev) => {
       const next = !prev;
-      localStorage.setItem('view', String(next));
+      localStorage.setItem('view', next);
       return next;
     });
   }

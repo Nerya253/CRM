@@ -9,28 +9,28 @@ const TOKEN_EXPIRY = process.env.JWT_EXPIRY || '1d';
 
 // CLIENTS CRUD
 export async function findClientsByUserId(userId) {
-  return clientsCollection.find({ userId: String(userId) }).toArray();
+  return clientsCollection.find({ userId }).toArray();
 }
 
 export async function findOneClient(id) {
-  return clientsCollection.findOne({ id: String(id) });
+  return clientsCollection.findOne({ id });
 }
 
 export async function addClient({ id, name, phone, email, userId, description }) {
   if (!id || !name || !phone || !email || !userId) throw new Error('Missing required fields');
 
-  email = String(email).trim().toLowerCase();
+  email = email.trim().toLowerCase();
   if (!isEmail(email)) throw new Error('Invalid email');
 
-  const existing = await clientsCollection.findOne({ $or: [{ email }, { id: String(id) }] });
+  const existing = await clientsCollection.findOne({ $or: [{ email }, { id }] });
   if (existing) throw new Error('client already exists');
 
   const doc = {
-    id: String(id),
+    id,
     name,
-    phone: String(phone),
+    phone,
     email,
-    userId: String(userId),
+    userId,
     description: description ?? '',
   };
   await clientsCollection.insertOne(doc);
@@ -41,7 +41,7 @@ export async function updateClient(id, updateFields = {}) {
   if (!id) throw new Error('Missing id');
   if (!updateFields || Object.keys(updateFields).length === 0) throw new Error('No data to update');
 
-  const current = await clientsCollection.findOne({ id: String(id) });
+  const current = await clientsCollection.findOne({ id });
   if (!current) throw new Error("Client doesn't exist");
 
   const newEmail = updateFields.email;
@@ -67,13 +67,13 @@ export async function updateClient(id, updateFields = {}) {
     if (existsId) throw new Error('ID already exists');
   }
 
-  await clientsCollection.updateOne({ id: String(id) }, { $set: updateFields });
+  await clientsCollection.updateOne({ id }, { $set: updateFields });
 
-  return clientsCollection.findOne({ id: String(id) });
+  return clientsCollection.findOne({ id });
 }
 
 export async function deleteClient(id) {
-  const result = await clientsCollection.deleteOne({ id: String(id) });
+  const result = await clientsCollection.deleteOne({ id });
   return result.deletedCount > 0;
 }
 
@@ -83,13 +83,13 @@ export async function findAllUsers() {
 }
 
 export async function findOneUser(id) {
-  return usersCollection.findOne({ id: String(id) }, { projection: { password: 0 } });
+  return usersCollection.findOne({ id }, { projection: { password: 0 } });
 }
 
 export async function addUser({ id, name, email, role, phone, password }) {
   if (!id || !name || !email || !password) throw new Error('Missing required fields');
 
-  email = String(email).trim().toLowerCase();
+  email = email.trim().toLowerCase();
   if (!isEmail(email)) throw new Error('Invalid email');
 
   const existing = await usersCollection.findOne({ $or: [{ email }, { id }] });
@@ -97,11 +97,11 @@ export async function addUser({ id, name, email, role, phone, password }) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const doc = {
-    id: String(id),
+    id,
     name,
     role: role || 'user',
     email,
-    phone: String(phone),
+    phone,
     password: hashedPassword,
   };
   await usersCollection.insertOne(doc);
@@ -113,7 +113,7 @@ export async function updateUser(id, updateFields = {}) {
   if (!id) throw new Error('Missing id');
   if (!updateFields || Object.keys(updateFields).length === 0) throw new Error('No data to update');
 
-  const current = await usersCollection.findOne({ id: String(id) });
+  const current = await usersCollection.findOne({ id });
   if (!current) throw new Error("User doesn't exist");
 
   const newEmail = updateFields.email;
@@ -139,13 +139,13 @@ export async function updateUser(id, updateFields = {}) {
     if (existsId) throw new Error('ID already exists');
   }
 
-  await usersCollection.updateOne({ id: String(id) }, { $set: updateFields });
+  await usersCollection.updateOne({ id }, { $set: updateFields });
 
-  return usersCollection.findOne({ id: String(id) }, { projection: { password: 0 } });
+  return usersCollection.findOne({ id }, { projection: { password: 0 } });
 }
 
 export async function deleteUser(id) {
-  const result = await usersCollection.deleteOne({ id: String(id) });
+  const result = await usersCollection.deleteOne({ id });
   return result.deletedCount > 0;
 }
 

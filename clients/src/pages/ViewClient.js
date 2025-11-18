@@ -56,7 +56,7 @@ export function ViewClient() {
         id,
         patch: {
           name: editName,
-          phone: String(editPhone),
+          phone: editPhone,
           email: editEmail,
           description: editDescription,
         },
@@ -133,11 +133,7 @@ export function ViewClient() {
       </form>
 
       <div className={styles.viewBtns}>
-        <Button
-          className="backBtn"
-          onClick={() => navigate('/clients')}
-          disabled={updateClient.isPending || removeClient.isPending}
-        >
+        <Button className="backBtn" onClick={() => navigate('/clients')} disabled={updateClient.isPending || removeClient.isPending}>
           back
         </Button>
 
@@ -149,11 +145,7 @@ export function ViewClient() {
           {updateClient.isPending ? 'Saving…' : edit ? 'Save' : 'Edit'}
         </Button>
 
-        <Button
-          className="deleteBtn"
-          onClick={handleDelete}
-          disabled={updateClient.isPending || removeClient.isPending}
-        >
+        <Button className="deleteBtn" onClick={handleDelete} disabled={updateClient.isPending || removeClient.isPending}>
           {removeClient.isPending ? 'Deleting…' : 'delete'}
         </Button>
       </div>

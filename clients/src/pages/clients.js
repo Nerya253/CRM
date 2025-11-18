@@ -32,23 +32,15 @@ export function Clients() {
   const clients = Array.isArray(data) ? data : data?.clients ?? [];
 
   const filteredClients = clients.filter((client) => {
+    if (!client) return null;
+
     const value = searchValue.trim().toLowerCase();
     return (
-      String(client?.id ?? '')
-        .toLowerCase()
-        .includes(value) ||
-      String(client?.name ?? '')
-        .toLowerCase()
-        .includes(value) ||
-      String(client?.email ?? '')
-        .toLowerCase()
-        .includes(value) ||
-      String(client?.phone ?? '')
-        .toLowerCase()
-        .includes(value) ||
-      String(client?.description ?? '')
-        .toLowerCase()
-        .includes(value)
+      client?.id.toLowerCase().includes(value) ||
+      client?.email.toLowerCase().includes(value) ||
+      client?.email.toLowerCase().includes(value) ||
+      client?.phone.toLowerCase().includes(value) ||
+      client?.description.toLowerCase().includes(value)
     );
   });
 
@@ -103,13 +95,7 @@ export function Clients() {
       <h1>Search Customer</h1>
 
       <div className={styles.searchConteiner}>
-        <LabelField
-          editMode={true}
-          inputType="text"
-          placeholder="Search…"
-          editValue={searchValue}
-          setEditValue={setSearchValue}
-        />
+        <LabelField editMode={true} inputType="text" placeholder="Search…" editValue={searchValue} setEditValue={setSearchValue} />
       </div>
       <div>
         <Button onClick={() => setSearchValue('')}>Clear</Button>
@@ -170,9 +156,7 @@ export function Clients() {
             editMode={true}
             inputType="text"
             editValue={newClient.description}
-            setEditValue={(val) =>
-              setNewClient((newClient) => ({ ...newClient, description: val }))
-            }
+            setEditValue={(val) => setNewClient((newClient) => ({ ...newClient, description: val }))}
           />
 
           <div>

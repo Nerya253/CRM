@@ -1,10 +1,13 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useLogout } from '../API/useUsers.js';
+import { useCurrentUser, useLogout } from '../API/useUsers.js';
 import { hasRole } from '../Auth/role.js';
 import styles from '../style/navbar.module.css';
 import { Button } from './button.js';
 
-export function NavBar({ user }) {
+export function NavBar() {
+  const { data } = useCurrentUser();
+  const user = data?.user;
+
   const navigate = useNavigate();
   const { mutate: logoutUser, isPending: isLoggingOut } = useLogout();
 

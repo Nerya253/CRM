@@ -29,14 +29,12 @@ export function Login() {
     login.reset();
     setLocalError(null);
 
-    const email = String(form.email || '')
-      .trim()
-      .toLowerCase();
-    const password = String(form.password || '').trim();
-
-    if (!email || !password) {
+    if (!form.email || !form.password) {
       return setLocalError('Please fill in your email and password.');
     }
+
+    const email = form.email.trim().toLowerCase();
+    const password = form.password.trim();
 
     try {
       const res = await login.mutateAsync({ email, password });
@@ -82,9 +80,7 @@ export function Login() {
           setEditValue={(val) => update('password', val)}
         />
 
-        {finalError && (
-          <p style={{ color: 'crimson', margin: 0, fontSize: '14px' }}>{finalError}</p>
-        )}
+        {finalError && <p style={{ color: 'crimson', margin: 0, fontSize: '14px' }}>{finalError}</p>}
 
         <Button type="submit" disabled={login.isPending} className="loginBtn">
           {login.isPending ? 'Connecting…' : 'Login'}
