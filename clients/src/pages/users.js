@@ -21,7 +21,7 @@ export function Users() {
       user?.name.toLowerCase().includes(value) ||
       user?.email.toLowerCase().includes(value) ||
       user?.phone.toLowerCase().includes(value) ||
-      user?.id.toLowerCase().includes(value)
+      user?.role.toLowerCase().includes(value)
     );
   });
 

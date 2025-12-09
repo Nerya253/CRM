@@ -62,6 +62,7 @@ export function ViewClient() {
         },
       });
       setEdit(false);
+      alert('Client updated successfully');
     } catch (e) {
       console.error('PUT client failed:', e);
       alert(e.message);

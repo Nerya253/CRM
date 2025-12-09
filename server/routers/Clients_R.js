@@ -38,17 +38,12 @@ clientRouter.post('/', async (req, res) => {
 clientRouter.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-
     const client = await findOneClient(id);
     if (!client) return res.status(404).json({ success: false, error: 'Client not found' });
     if (client.userId !== req.user.id) {
       return res.status(403).json({ success: false, error: 'Access denied' });
     }
-
-    const data = { ...req.body };
-    delete data.id;
-
-    const updated = await updateClient(id, data);
+    const updated = await updateClient(id, req.body);
     res.json(updated);
   } catch (error) {
     console.error('PUT /clients/:id error:', error);

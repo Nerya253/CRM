@@ -9,8 +9,8 @@ import { useView } from '../context/viewContext.js';
 import styles from '../style/clients.module.css';
 
 export function Clients() {
-  const { data: meData } = useCurrentUser();
-  const me = meData?.user;
+  const { data: currUserData } = useCurrentUser();
+  const me = currUserData?.user;
 
   const { data } = useClientsByUserId();
 
@@ -37,7 +37,7 @@ export function Clients() {
     const value = searchValue.trim().toLowerCase();
     return (
       client?.id.toLowerCase().includes(value) ||
-      client?.email.toLowerCase().includes(value) ||
+      client?.name.toLowerCase().includes(value) ||
       client?.email.toLowerCase().includes(value) ||
       client?.phone.toLowerCase().includes(value) ||
       client?.description.toLowerCase().includes(value)

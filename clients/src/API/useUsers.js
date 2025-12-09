@@ -26,12 +26,10 @@ async function getCurrentUser() {
   const res = await fetch(`${API_BASE}/users/currentUser`, {
     credentials: 'include',
   });
-
   if (!res.ok) {
     const body = await res.json();
     throw new Error(body.error);
   }
-
   return res.json();
 }
 
@@ -127,6 +125,7 @@ async function updateUser({ id, patch }) {
     body: JSON.stringify(patch),
     credentials: 'include',
   });
+  console.log(res);
 
   if (!res.ok) {
     const body = await res.json();

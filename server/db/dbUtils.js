@@ -44,32 +44,27 @@ export async function updateClient(id, updateFields = {}) {
   const current = await clientsCollection.findOne({ id });
   if (!current) throw new Error("Client doesn't exist");
 
-  const newEmail = updateFields.email;
-  const newId = updateFields.id;
+  const allowed = ['name', 'phone', 'email', 'description'];
 
-  if (newEmail && newEmail !== current.email) {
-    if (!isEmail(newEmail)) throw new Error('Invalid email');
+  const safeUpdate = {};
+  for (const field of allowed) {
+    if (updateFields[field] !== undefined) safeUpdate[field] = updateFields[field];
+  }
+
+  if (safeUpdate.email && safeUpdate.email !== current.email) {
+    if (!isEmail(safeUpdate.email)) throw new Error('Invalid email');
 
     const existsEmail = await clientsCollection.findOne({
-      email: newEmail,
+      email: safeUpdate.email,
       id: { $ne: id },
     });
 
     if (existsEmail) throw new Error('Email already exists');
   }
 
-  if (newId && newId !== current.id) {
-    const existsId = await clientsCollection.findOne({
-      id: newId,
-      id: { $ne: id },
-    });
+  const res = await clientsCollection.findOneAndUpdate({ id }, { $set: safeUpdate }, { returnDocument: 'after' });
 
-    if (existsId) throw new Error('ID already exists');
-  }
-
-  await clientsCollection.updateOne({ id }, { $set: updateFields });
-
-  return clientsCollection.findOne({ id });
+  return res;
 }
 
 export async function deleteClient(id) {
@@ -116,32 +111,27 @@ export async function updateUser(id, updateFields = {}) {
   const current = await usersCollection.findOne({ id });
   if (!current) throw new Error("User doesn't exist");
 
-  const newEmail = updateFields.email;
-  const newId = updateFields.id;
+  const allowed = ['name', 'email', 'phone', 'role'];
 
-  if (newEmail && newEmail !== current.email) {
-    if (!isEmail(newEmail)) throw new Error('Invalid email');
+  const safeUpdate = {};
+  for (const field of allowed) {
+    if (updateFields[field] !== undefined) safeUpdate[field] = updateFields[field];
+  }
+
+  if (safeUpdate.email && safeUpdate.email !== current.email) {
+    if (!isEmail(safeUpdate.email)) throw new Error('Invalid email');
 
     const existsEmail = await usersCollection.findOne({
-      email: newEmail,
+      email: safeUpdate.email,
       id: { $ne: id },
     });
 
     if (existsEmail) throw new Error('Email already exists');
   }
 
-  if (newId && newId !== current.id) {
-    const existsId = await usersCollection.findOne({
-      id: newId,
-      id: { $ne: id },
-    });
+  const res = await usersCollection.findOneAndUpdate({ id }, { $set: safeUpdate }, { returnDocument: 'after', projection: { password: 0 } });
 
-    if (existsId) throw new Error('ID already exists');
-  }
-
-  await usersCollection.updateOne({ id }, { $set: updateFields });
-
-  return usersCollection.findOne({ id }, { projection: { password: 0 } });
+  return res;
 }
 
 export async function deleteUser(id) {

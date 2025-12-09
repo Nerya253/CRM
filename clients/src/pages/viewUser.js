@@ -11,8 +11,8 @@ export function ViewUser() {
 
   const { data: user, isPending, error } = useUser(id);
 
-  const me = useCurrentUser();
-  const currUser = me?.data?.user;
+  const currentUser = useCurrentUser();
+  const currUser = currentUser?.data?.user;
 
   const isSelf = !!(currUser && user && currUser.id === user.id);
 
@@ -68,6 +68,7 @@ export function ViewUser() {
         },
       });
       setEdit(false);
+      alert('User updated successfully');
     } catch (e) {
       console.error('PUT user failed:', e);
       alert(e.message);

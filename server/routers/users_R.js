@@ -32,7 +32,6 @@ userRouter.get('/currentUser', verifyToken, async (req, res) => {
 
     const user = await findOneUser(userId);
     if (!user) return res.status(404).json({ success: false, error: 'User not found' });
-
     res.json({ user });
   } catch (error) {
     console.error('GET /users/currentUser error:', error);
@@ -70,17 +69,10 @@ userRouter.post('/', verifyToken, requireAdmin, async (req, res) => {
 userRouter.put('/:id', verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
-
     if (req.user.role !== 'admin' && req.user.id !== id) {
       return res.status(403).json({ success: false, error: 'Access denied' });
     }
-
-    const data = { ...req.body };
-    delete data.id;
-    delete data.password;
-    if (req.user.role !== 'admin') delete data.role;
-
-    const updated = await updateUser(id, data);
+    const updated = await updateUser(id, req.body);
     if (!updated) return res.status(404).json({ success: false, error: 'User not found' });
     res.json(updated);
   } catch (error) {
