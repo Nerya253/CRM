@@ -10,7 +10,7 @@ import styles from '../style/clients.module.css';
 
 export function Clients() {
   const { data: currUserData } = useCurrentUser();
-  const me = currUserData?.user;
+  const currUser = currUserData?.user;
 
   const { data } = useClientsByUserId();
 
@@ -32,22 +32,22 @@ export function Clients() {
   const clients = Array.isArray(data) ? data : data?.clients ?? [];
 
   const filteredClients = clients.filter((client) => {
-    if (!client) return null;
+    if (!client) return false;
 
     const value = searchValue.trim().toLowerCase();
     return (
-      client?.id.toLowerCase().includes(value) ||
-      client?.name.toLowerCase().includes(value) ||
-      client?.email.toLowerCase().includes(value) ||
-      client?.phone.toLowerCase().includes(value) ||
-      client?.description.toLowerCase().includes(value)
+      client.id?.toLowerCase().includes(value) ||
+      client.name?.toLowerCase().includes(value) ||
+      client.email?.toLowerCase().includes(value) ||
+      client.phone?.toLowerCase().includes(value) ||
+      client.description?.toLowerCase().includes(value)
     );
   });
 
   function handleAddSubmit(e) {
     e.preventDefault();
 
-    if (!me?.id) {
+    if (!currUser?.id) {
       alert('No logged in user detected. Try logging in again.');
       return;
     }
@@ -69,7 +69,7 @@ export function Clients() {
       email,
       phone,
       description,
-      userId: me.id,
+      userId: currUser.id,
     };
 
     addClient.mutate(payload, {

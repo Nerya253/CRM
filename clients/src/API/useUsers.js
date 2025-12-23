@@ -125,7 +125,6 @@ async function updateUser({ id, patch }) {
     body: JSON.stringify(patch),
     credentials: 'include',
   });
-  console.log(res);
 
   if (!res.ok) {
     const body = await res.json();

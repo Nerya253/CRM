@@ -6,7 +6,7 @@ import { main } from './db/db_connection.js';
 import { clientRouter } from './routers/Clients_R.js';
 import { userRouter } from './routers/users_R.js';
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4000;
 const app = express();
 
 app.use(cookieParser());

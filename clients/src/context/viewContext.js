@@ -13,7 +13,6 @@ export function ViewProvider({ children }) {
       return next;
     });
   }
-
   return <ViewContext.Provider value={{ isCard, toggleView }}>{children}</ViewContext.Provider>;
 }
 

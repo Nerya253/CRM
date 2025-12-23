@@ -1,4 +1,3 @@
-// src/pages/Register.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAddUser } from '../API/useUsers.js';
@@ -20,17 +19,19 @@ export function Register() {
 
   const addUser = useAddUser();
 
-  function onChange(e) {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  }
-
   function onSubmit(e) {
     e.preventDefault();
     if (!form.role) return alert('Choose a role (user/admin)');
-    addUser.mutate(form);
-    navigate('/users');
-    alert('create user success');
+
+    addUser.mutate(form, {
+      onSuccess: () => {
+        alert('User created successfully');
+        navigate('/users');
+      },
+      onError: (err) => {
+        alert(err.message);
+      },
+    });
   }
 
   function onCancel() {
@@ -46,7 +47,7 @@ export function Register() {
 
   return (
     <form className={styles.form} onSubmit={onSubmit}>
-      <h2 className={styles.title}>Register New User</h2>
+      <h2 className={styles.title}>create New User</h2>
 
       <div className={styles.fields}>
         <LabelField

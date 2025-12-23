@@ -14,10 +14,7 @@ export function ViewModeChooser({ items, type }) {
 export function Table({ items, type }) {
   const navigate = useNavigate();
 
-  const allowedColumns =
-    type === 'client'
-      ? ['id', 'name', 'email', 'phone', 'description']
-      : ['id', 'name', 'email', 'phone', 'role'];
+  const allowedColumns = type === 'client' ? ['id', 'name', 'email', 'phone', 'description'] : ['id', 'name', 'email', 'phone', 'role'];
 
   const goTo = (id) => navigate(type === 'client' ? `/client/${id}` : `/user/${id}`);
 
@@ -34,15 +31,7 @@ export function Table({ items, type }) {
 
         <tbody>
           {items.map((item, i) => (
-            <tr
-              key={`${item?.id ?? 'row'}-${i}`}
-              className={styles.tableRow}
-              onClick={() => goTo(item.id)}
-              tabIndex={0}
-              role="button"
-              onKeyDown={(e) => (e.key === 'Enter' ? goTo(item.id) : null)}
-              aria-label={`פתח ${type} ${item?.name ?? ''}`}
-            >
+            <tr key={`${item?.id ?? 'row'}-${i}`} className={styles.tableRow} onClick={() => goTo(item.id)} role="button">
               {allowedColumns.map((col) => (
                 <td key={col}>{item?.[col] ?? ''}</td>
               ))}
