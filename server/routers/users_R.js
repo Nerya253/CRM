@@ -8,6 +8,7 @@ userRouter.get('/', verifyToken, requireAdmin, async (_req, res) => {
   try {
     const users = await findAllUsers();
     res.json(users);
+    console.log(users);
   } catch (error) {
     console.error('GET /users error:', error);
     res.status(500).json({ success: false, error: error.message || 'Internal server error' });
