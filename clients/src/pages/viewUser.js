@@ -9,12 +9,12 @@ export function ViewUser() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { data: user, isPending, error } = useUser(id);
+  const { data: selectedUser, isPending, error } = useUser(id);
 
   const currentUser = useCurrentUser();
   const currUser = currentUser?.data?.user;
 
-  const isSelf = !!(currUser && user && currUser.id === user.id);
+  const isSelf = !!(currUser && selectedUser && currUser.id === selectedUser.id);
 
   const updateUser = useUpdateUser();
   const removeUser = useDeleteUser();
@@ -26,13 +26,13 @@ export function ViewUser() {
   const [editRole, setEditRole] = useState('');
 
   useEffect(() => {
-    if (user) {
-      setEditName(user.name || '');
-      setEditPhone(user.phone || '');
-      setEditEmail(user.email || '');
-      setEditRole(user.role || '');
+    if (selectedUser) {
+      setEditName(selectedUser.name || '');
+      setEditPhone(selectedUser.phone || '');
+      setEditEmail(selectedUser.email || '');
+      setEditRole(selectedUser.role || '');
     }
-  }, [user]);
+  }, [selectedUser]);
 
   if (isPending) {
     return (
@@ -43,7 +43,7 @@ export function ViewUser() {
     );
   }
 
-  if (error || !user) {
+  if (error || !selectedUser) {
     return (
       <div className={styles.ViewClient}>
         <h1 className={styles.ViewUserHeader}>View User</h1>
@@ -99,14 +99,14 @@ export function ViewUser() {
   return (
     <div className={styles.ViewUser}>
       <div>
-        <h1>User ID {user.id}</h1>
+        <h1>User ID {selectedUser.id}</h1>
       </div>
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <LabelField
           className="ViewLabel"
           label="name:"
-          value={user.name}
+          value={selectedUser.name}
           editValue={editName}
           setEditValue={setEditName}
           editMode={edit}
@@ -116,7 +116,7 @@ export function ViewUser() {
         <LabelField
           className="ViewLabel"
           label="phone:"
-          value={user.phone}
+          value={selectedUser.phone}
           editValue={editPhone}
           setEditValue={setEditPhone}
           editMode={edit}
@@ -126,7 +126,7 @@ export function ViewUser() {
         <LabelField
           className="ViewLabel"
           label="email:"
-          value={user.email}
+          value={selectedUser.email}
           editValue={editEmail}
           setEditValue={setEditEmail}
           editMode={edit}
@@ -135,7 +135,7 @@ export function ViewUser() {
         <LabelField
           className="ViewLabel"
           label="role:"
-          value={user.role}
+          value={selectedUser.role}
           editValue={editRole}
           setEditValue={setEditRole}
           editMode={edit}
