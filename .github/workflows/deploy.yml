@@ -1,4 +1,4 @@
-name: CI/CD - Build & Deploy crm
+name: CI/CD - CRM Project
 
 on:
   push:
@@ -6,12 +6,23 @@ on:
       - main
 
 jobs:
-  build:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies and Test Server
+        run: |
+          cd server
+          npm install
+          npm test
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -25,59 +36,37 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # --------------------
-      # Build & Push SERVER
-      # --------------------
-      - name: Build & Push Server Image
+      # בניית Server
+      - name: Build & Push Server
         uses: docker/build-push-action@v5
         with:
           context: ./server
           file: ./server/Dockerfile
           push: true
-          platforms: linux/arm64
-          provenance: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/crm-server:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/crm-server:${{ github.sha }}
+          platforms: linux/arm64,linux/amd64
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crm-server:latest
 
-      # --------------------
-      # Build & Push CLIENT
-      # --------------------
-      - name: Build & Push Client Image
+      # בניית Client
+      - name: Build & Push Client
         uses: docker/build-push-action@v5
         with:
           context: ./client
           file: ./client/Dockerfile
           push: true
-          platforms: linux/arm64
-          provenance: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/crm-client:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/crm-client:${{ github.sha }}
+          platforms: linux/arm64,linux/amd64
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crm-client:latest
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Copy docker-compose and nginx to VM
+      # העברת קבצים לשרת
+      - name: Copy docker-compose to Server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.SSh_HOST }}
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-
-          source: 'docker-compose.yml,client/nginx.conf'
+          source: 'docker-compose.yml'
           target: '~/crm'
-          strip_components: 0
 
+      # Deploy בשרת
       - name: Deploy on Oracle VM
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -85,18 +74,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e
             cd ~/crm
-
-            ls -la
-
-            echo "Logging into Docker Hub..."
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-
-            echo "Pulling latest images..."
             docker compose pull
-
-            echo "Restarting containers..."
+            docker compose down
             docker compose up -d --force-recreate
-
-            echo "Deployment completed successfully"
