@@ -10,8 +10,10 @@ services:
       - '3000:3000'
     environment:
       - PORT=3000
-      # חיבור למונגו (שים לב לשם השירות mongo)
+      # חיבור למונגו
       - MONGO_URI=mongodb://mongo:27017/crmdb
+      # --- השורה החדשה שהוספנו! ---
+      - JWT_SECRET=MySuperSecretKey123!
     depends_on:
       - mongo
     networks:
@@ -23,7 +25,7 @@ services:
     container_name: crm-client
     restart: always
     ports:
-      - '8081:80' # מיפוי לפורט 8081 כדי לא להתנגש עם הפורטפוליו
+      - '8081:80'
     depends_on:
       - crm-server
     networks:
