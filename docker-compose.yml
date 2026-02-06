@@ -10,9 +10,9 @@ services:
       - '3000:3000'
     environment:
       - PORT=3000
-      # חיבור למונגו
-      - MONGO_URI=mongodb://mongo:27017/crmdb
-      # --- השורה החדשה שהוספנו! ---
+      # החיבור החדש ל-Atlas (הענן)
+      - MONGO_URI=mongodb+srv://nerya253_db:Nerya177!@cluster0.5zop2m8.mongodb.net/crmdb?retryWrites=true&w=majority&appName=Cluster0
+      # המפתח הסודי ללוגין
       - JWT_SECRET=MySuperSecretKey123!
     depends_on:
       - mongo
@@ -32,6 +32,7 @@ services:
       - crm-network
 
   # --- Database (MongoDB) ---
+  # הקונטיינר הזה עדיין ירוץ ברקע, אבל השרת שלך לא ישתמש בו יותר!
   mongo:
     image: mongo:6.0
     container_name: crm-mongo
