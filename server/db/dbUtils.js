@@ -152,10 +152,8 @@ export async function loginUser({ email, password }) {
   const user = await usersCollection.findOne({ email });
   if (!user) throw new Error('Invalid email or password');
 
-  // const isValid = await bcrypt.compare(password, user.password);
-  // if (!isValid) throw new Error('Invalid email or password');
-
-  const isValid = password;
+  const isValid = await bcrypt.compare(password, user.password);
+  if (!isValid) throw new Error('Invalid email or password');
 
   const token = jwt.sign({ id: user.id, role: user.role || 'user' }, JWT_SECRET, {
     expiresIn: TOKEN_EXPIRY,
