@@ -13,19 +13,11 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:5173',
-      'http://crm-nerya.duckdns.org',
-      'https://crm-nerya.duckdns.org',
-      'http://151.145.89.66',
-      'https://151.145.89.66',
-      'http://crm-nerya.duckdns.org:8081',
-      'http://151.145.89.66:8081',
-    ],
+    origin: true,
     credentials: true,
   }),
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
