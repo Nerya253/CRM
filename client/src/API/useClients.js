@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 const API_BASE = 'http://crm-nerya.duckdns.org:3000';
-
 // ==============
 
 async function getClient(id) {
